@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+targetNamespace="http://ws.shopdirect.com/xsd/AccountStatus" 
+xmlns:tns="http://ws.shopdirect.com/xsd/AccountStatus" elementFormDefault="qualified">
+  
+  <xs:element name= "getCustomerAccountStatus" type="tns:getCustomerAccountStatus"/>
+ 
+    <xs:complexType name="getCustomerAccountStatus">
+      <xs:sequence>
+        <xs:element name= "HeaderInformation" type="tns:HeaderInformation"/>
+		<xs:element name= "CustomerDetail" type="tns:CustomerDetail"/>
+      </xs:sequence>  
+    </xs:complexType>
+  
+  
+  <xs:complexType name="HeaderInformation">
+    <xs:sequence>
+      <xs:element name="CallingApplicationName" type="xs:string"/>
+      <xs:element name="VersionNumber" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="CustomerDetail">
+    <xs:sequence>
+      <xs:element name="AccountNumber" type="xs:string"/>
+      <xs:element name="ChordiantId" type="xs:string"/>
+	  <xs:element name= "AccountStatusType" type="tns:AccountStatusType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="AccountStatusType">
+    <xs:sequence>
+      <xs:element name="AccountStatusType" type="xs:integer"/>
+      <xs:element name="AccountStatusInd" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  
+  
+  
+  <xs:element name="getCustomerAccountStatusResponse">
+    <xs:complexType>
+      <xs:sequence>
+	  <xs:element name="ReturnCode" type="xs:int"/>
+      <xs:element name="ReturnMessage" type="xs:string" minOccurs="0"/>
+      <xs:element name= "CustomerAccountStatus" type="tns:CustomerAccountStatus" minOccurs="0"/>
+      </xs:sequence>  
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name="CustomerAccountStatus">
+    <xs:sequence>
+      <xs:element name="AccountNumber" type="xs:string"/>
+      <xs:element name= "CustStatusDetails" type="tns:CustStatusDetails" minOccurs="0" maxOccurs="unbounded"/>
+	  <xs:element name= "AccountStatusRecommendations" type="tns:AccountStatusRecommendations" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CustStatusDetails">
+    <xs:sequence>
+   <xs:element name="AccountStatusType" type="xs:integer"/>
+    <xs:element name="AccountStatusDescription" type="xs:string"/>
+	<xs:element name="AccountStatusInd" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+    
+  
+  
+  <xs:complexType name="AccountStatusRecommendations">
+    <xs:sequence>
+    <xs:element name="AccountStatusType" type="xs:integer"/>
+    <xs:element name="AccountStatusRecommendation" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+ 
+  <xs:element name="GeneralApplicationFault">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ErrorCode" type="xs:string"/>
+						<xs:element name="ErrorMessage" type="xs:string"/>
+						<xs:element name="MessageID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+  
+</xs:schema>

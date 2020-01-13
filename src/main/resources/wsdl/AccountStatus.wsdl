@@ -1,0 +1,125 @@
+
+
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://ws.shopdirect.com/xsd/AccountStatus" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ws.shopdirect.com/AccountStatus" targetNamespace="http://ws.shopdirect.com/AccountStatus">
+  <wsdl:types>
+    <xs:schema xmlns:tns="http://ws.shopdirect.com/xsd/AccountStatus" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://ws.shopdirect.com/xsd/AccountStatus">
+  
+  <xs:element name="getCustomerAccountStatus" type="tns:getCustomerAccountStatus"/>
+ 
+     <xs:complexType name="getCustomerAccountStatus">
+      <xs:sequence>
+        <xs:element name= "HeaderInformation" type="tns:HeaderInformation"/>
+		<xs:element name= "CustomerDetail" type="tns:CustomerDetail"/>
+      </xs:sequence>  
+    </xs:complexType>
+  
+  
+  <xs:complexType name="HeaderInformation">
+    <xs:sequence>
+      <xs:element name="CallingApplicationName" type="xs:string"/>
+      <xs:element name="VersionNumber" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="CustomerDetail">
+    <xs:sequence>
+      <xs:element name="AccountNumber" type="xs:string"/>
+      <xs:element name="ChordiantId" type="xs:string"/>
+	  <xs:element name= "AccountStatusType" type="tns:AccountStatusType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="AccountStatusType">
+    <xs:sequence>
+      <xs:element name="AccountStatusType" type="xs:integer"/>
+      <xs:element name="AccountStatusInd" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:element name="getCustomerAccountStatusResponse">
+    <xs:complexType>
+      <xs:sequence>
+	  <xs:element name="ReturnCode" type="xs:int"/>
+      <xs:element name="ReturnMessage" type="xs:string" minOccurs="0"/>
+      <xs:element name= "CustomerAccountStatus" type="tns:CustomerAccountStatus" minOccurs="0"/>
+      </xs:sequence>  
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name="CustomerAccountStatus">
+    <xs:sequence>
+      <xs:element name="AccountNumber" type="xs:string"/>
+      <xs:element name= "CustStatusDetails" type="tns:CustStatusDetails" minOccurs="0" maxOccurs="unbounded"/>
+	  <xs:element name= "AccountStatusRecommendations" type="tns:AccountStatusRecommendations" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CustStatusDetails">
+    <xs:sequence>
+   <xs:element name="AccountStatusType" type="xs:integer"/>
+    <xs:element name="AccountStatusDescription" type="xs:string"/>
+	<xs:element name="AccountStatusInd" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+    
+  
+  
+  <xs:complexType name="AccountStatusRecommendations">
+    <xs:sequence>
+    <xs:element name="AccountStatusType" type="xs:integer"/>
+    <xs:element name="AccountStatusRecommendation" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="GeneralApplicationFault">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ErrorCode" type="xs:string"/>
+						<xs:element name="ErrorMessage" type="xs:string"/>
+						<xs:element name="MessageID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+  
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getCustomerAccountStatusMessage">
+    <wsdl:part element="sch:getCustomerAccountStatus" name="getCustomerAccountStatus">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCustomerAccountStatusResponseMessage">
+    <wsdl:part element="sch:getCustomerAccountStatusResponse" name="getCustomerAccountStatusResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GeneralApplication">
+    <wsdl:part element="GeneralApplicationFault" name="fault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="AccountStatusPT">
+    <wsdl:operation name="getCustomerAccountStatusCONNECT_WRAP_PARAM">
+      <wsdl:input message="tns:getCustomerAccountStatusMessage"/>
+	  <wsdl:output message="tns:getCustomerAccountStatusResponseMessage"/>
+      <wsdl:fault message="tns:GeneralApplication" name="GeneralApplication"/>
+    
+    </wsdl:operation>
+    
+  </wsdl:portType>
+  <wsdl:binding name="SOAP11Binding" type="tns:AccountStatusPT">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getCustomerAccountStatusCONNECT_WRAP_PARAM">
+      <soap:operation soapAction="urn:getCustomerAccountStatus"/>
+      <wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="GeneralApplication">
+				<soap:fault name="GeneralApplication" use="literal"/>
+			</wsdl:fault>
+    </wsdl:operation>
+   </wsdl:binding>
+  <wsdl:service name="AccountStatus">
+    <wsdl:port binding="tns:SOAP11Binding" name="SOAP11port_http">
+      <soap:address location="http://localhost:8080/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
